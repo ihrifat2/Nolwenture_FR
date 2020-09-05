@@ -1,32 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const fs = require('fs')
-// const { exec, spawn } = require('child_process');
-
-// router.get('/', (req, res, next) => {
-//     res.send('Express router is working')
-// })
-
+const fs = require("fs");
 
 router.get('/', (req, res, next) => {
-    res.render('home')
+    res.render('home', { title: 'File Reader', datas: '' })
 })
 
 router.post('/readfile', (req, res, next) => {
-    // res.send('readfile route is working')
-    // fs.readFile('../files/binary', 'latin1', function(err, data){
-    //     console.log(data)
-    // });
-    binary = fs.readFileSync('../files/binary.dat');
-    console.log(binary)
-
-    // exec('binary.bat', (err, stdout, stderr) => {
-    //     if (err) {
-    //         console.error(err);
-    //         return;
-    //     }
-    //     console.log(stdout);
-    // });
+    fs.readFile('./files/binary.dat', 'utf-8', function (err, data) {
+        const buf = Buffer.from(data)
+        bufString = buf.toString()
+        res.render('home', { title: 'File Reader', datas: bufString })
+    })
 })
 
 module.exports = router;
